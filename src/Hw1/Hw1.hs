@@ -17,4 +17,14 @@ toDigitsRev n = reverse (toDigits n)
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther xs = zipWith (*) (cycle [1,2]) xs
 
+sumDigits :: [Integer] -> Integer
+sumDigits = sum . concat . (map  toDigits)
 
+validate :: Integer -> Bool
+validate x = ((sumDigits . doubleEveryOther .  toDigitsRev $ x) `mod` 10) == 0
+
+type Peg = String
+type Move = (Peg, Peg)
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi 0 _ _ _ =  []
+hanoi x a b c = hanoi(x-1) a c b ++ [(a,b)] ++ hanoi (x-1) c b a 
